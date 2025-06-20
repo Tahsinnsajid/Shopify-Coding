@@ -1,0 +1,24 @@
+<a href="https://wa.me/923181828064?text=Hi%20Zarcod%2C%20I'm%20interested%20in%20your%20men's%20jewelry." 
+   class="zarcod-whatsapp-chat" target="_blank" rel="noopener">
+  <img src="https://cdn.shopify.com/s/files/1/0690/9863/5357/files/20250517_130943_0000.png?v=1747469444" 
+       width="60" height="60" alt="Chat on WhatsApp" />
+</a>
+
+<style>
+.zarcod-whatsapp-chat {
+  position: fixed !important;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999999 !important;
+  display: block !important;
+}
+.zarcod-whatsapp-chat img {
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+.zarcod-whatsapp-chat:hover img {
+  transform: scale(1.1);
+}
+</style>
+
+
