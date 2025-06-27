@@ -1,0 +1,127 @@
+<style>
+  .announcement-bar-custom {
+    height: {{ section.settings.bar_height }}px;
+    width: 100%;
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .announcement-slide,
+  .announcement-ticker-item {
+    display: inline-block;
+    padding: 0 {{ section.settings.announcement_spacing }}px;
+    font-size: 16px;
+  }
+
+  .announcement-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    align-items: center;
+  }
+
+  .announcement-slider .announcement-slide {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  marquee {
+    line-height: {{ section.settings.bar_height }}px;
+  }
+</style>
+
+<div class="announcement-bar-custom">
+  {% if section.settings.display_mode == 'auto' %}
+    <div class="announcement-slider">
+      {% for block in section.blocks %}
+        <div class="announcement-slide">
+          {{ block.settings.text }}
+        </div>
+      {% endfor %}
+    </div>
+  {% elsif section.settings.display_mode == 'ticker' %}
+    <marquee behavior="scroll" direction="left" scrollamount="5">
+      {% for block in section.blocks %}
+        <span class="announcement-ticker-item">
+          {{ block.settings.text }}
+        </span>
+      {% endfor %}
+    </marquee>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Custom Announcement Bar",
+  "settings": [
+    {
+      "type": "select",
+      "id": "display_mode",
+      "label": "Display Mode",
+      "options": [
+        { "value": "auto", "label": "Auto Slide" },
+        { "value": "ticker", "label": "Ticker" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Bar Height (px)",
+      "min": 30,
+      "max": 150,
+      "step": 5,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "announcement_spacing",
+      "label": "Space Between Announcements (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Announcement Text",
+          "default": "Welcome to our store!"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Custom Announcement Bar",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+
