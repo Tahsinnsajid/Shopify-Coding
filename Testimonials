@@ -1,0 +1,120 @@
+<div class="testimonial-wrapper">
+  <h2>{{ section.settings.heading }}</h2>
+  <div class="testimonial-grid">
+    {% for block in section.blocks %}
+      {% if block.type == 'testimonial' %}
+        <div class="testimonial-card">
+          {% if block.settings.avatar != blank %}
+            <img src="{{ block.settings.avatar | img_url: '100x100' }}" class="avatar" alt="{{ block.settings.name }}">
+          {% endif %}
+          <h3>{{ block.settings.name }}</h3>
+          <div class="stars">
+            {% for i in (1..block.settings.stars) %}
+              ⭐
+            {% endfor %}
+          </div>
+          <p>"{{ block.settings.quote }}"</p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.testimonial-wrapper {
+  padding: 50px 20px;
+  background: #f9f9f9;
+  text-align: center;
+}
+.testimonial-wrapper h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+.testimonial-grid {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.testimonial-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+}
+.testimonial-card .avatar {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+.testimonial-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+.testimonial-card .stars {
+  margin: 5px 0;
+  color: #f39c12;
+}
+.testimonial-card p {
+  font-style: italic;
+  color: #555;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "What Our Customers Are Saying"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Customer Avatar"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer Name",
+          "default": "John Doe"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonial",
+          "default": "This product changed my life! Highly recommended."
+        },
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
