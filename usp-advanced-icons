@@ -1,0 +1,79 @@
+<div style="background-color: {{ section.settings.section_bg }}; padding: 30px 0;">
+  <div class="page-width" style="display: flex; flex-wrap: wrap; gap: {{ section.settings.block_gap }}px; justify-content: center;">
+    {% for block in section.blocks %}
+      {% assign image_opacity = block.settings.image_visibility | divided_by: 100.0 %}
+      {% assign shape = block.settings.shape %}
+
+      <div class="usp-item"
+           style="
+             flex: 1 1 150px;
+             max-width: 200px;
+             padding: 20px;
+             text-align: center;
+             position: relative;
+             border-radius: {% if shape == 'circle' %}50%{% elsif shape == 'rounded' %}15px{% else %}0{% endif %};
+             overflow: hidden;
+             background-color: {{ block.settings.block_bg_color }};
+           ">
+
+        {% if block.settings.bg_image != blank %}
+          <img
+            src="{{ block.settings.bg_image | image_url: width: 600 }}"
+            alt="USP Background"
+            style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              opacity: {{ image_opacity }};
+              border-radius: {% if shape == 'circle' %}50%{% elsif shape == 'rounded' %}15px{% else %}0{% endif %};
+              z-index: 1;
+            "
+          />
+        {% endif %}
+
+        <div style="position: relative; z-index: 2;">
+          <div style="font-size: {{ block.settings.icon_size }}px; margin-bottom: 10px;">
+            {{ block.settings.icon }}
+          </div>
+          <div style="font-size: {{ block.settings.text_size }}px; color: {{ block.settings.text_color }};">
+            {{ block.settings.text }}
+          </div>
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Advanced USP Icons Bar",
+  "settings": [
+    { "type": "color", "id": "section_bg", "label": "Section Background", "default": "#ffffff" },
+    { "type": "range", "id": "block_gap", "label": "Gap Between Blocks", "min": 0, "max": 50, "default": 20 }
+  ],
+  "blocks": [
+    {
+      "type": "usp_item",
+      "name": "USP Item",
+      "settings": [
+        { "type": "select", "id": "shape", "label": "Shape", "options": [ { "value": "square", "label": "Square" }, { "value": "rounded", "label": "Rounded" }, { "value": "circle", "label": "Circle" } ], "default": "rounded" },
+        { "type": "image_picker", "id": "bg_image", "label": "Background Image" },
+        { "type": "range", "id": "image_visibility", "label": "Image Visibility (%)", "min": 0, "max": 100, "default": 100 },
+        { "type": "text", "id": "icon", "label": "Icon or SVG", "default": "🚚" },
+        { "type": "range", "id": "icon_size", "label": "Icon Size (px)", "min": 10, "max": 100, "default": 32 },
+        { "type": "text", "id": "text", "label": "USP Text", "default": "Free Shipping" },
+        { "type": "range", "id": "text_size", "label": "Text Size (px)", "min": 10, "max": 40, "default": 14 },
+        { "type": "color", "id": "text_color", "label": "Text Color", "default": "#000000" },
+        { "type": "color", "id": "block_bg_color", "label": "Block Background", "default": "#ffffff" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Advanced USP Icons", "blocks": [ { "type": "usp_item" }, { "type": "usp_item" }, { "type": "usp_item" } ] } ]
+}
+{% endschema %}
