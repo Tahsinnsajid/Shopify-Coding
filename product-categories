@@ -1,3 +1,7 @@
+{% comment %}
+  AT THE TOP There will be category buttons, then you click the category you want then usi same age par wo categoru show ho jaya gi
+{% endcomment %}
+
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'section-product-categories-tabs.css' | asset_url | stylesheet_tag }}
